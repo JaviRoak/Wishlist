@@ -1,0 +1,542 @@
+﻿<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wishlist · Javi</title>
+  <link rel="icon" type="image/png" href="cabeza.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800;12..96,900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+
+    const COLLECTIONS = {
+      ropa: {
+        label: "Ropa",
+        kicker: "Para vestir",
+        items: [
+          {
+            id: "camiseta-gruesa-l",
+            name: "Camiseta Gruesa Talla L De Ejemplo",
+            img: "ropa/CamisetGruesaTallaLDeEjemplo.png",
+            url: null,
+            price: 0,
+            blurb: "Imagen de referencia de la camiseta. El color de la imagen no es específico.",
+            disclaimer: true,
+          },
+          {
+            id: "overshirt-ejemplo",
+            name: "Overshirt De Ejemplo",
+            img: "ropa/OvershirtDeEjemplo.png",
+            url: null,
+            price: 0,
+            blurb: "Imagen de referencia de la overshirt. El color de la imagen no es específico.",
+            disclaimer: true,
+          },
+          {
+            id: "pantalones-regular-fit-38",
+            name: "Pantalones Regular Fit Talla 38",
+            img: "ropa/pantalonesregularfitTalla38.png",
+            url: null,
+            price: 0,
+            blurb: "Imagen de referencia de los pantalones. El color de la imagen no es específico.",
+            disclaimer: true,
+          },
+          {
+            id: "jacket-work-cafe",
+            name: "Jacket Work Color Café",
+            img: "ropa/JacketWorkCafe.png",
+            url: "https://caterpillarsv.com/collections/jacket-hombre/products/30092946-jacket-work-para-hombre-color-cafe?variant=48344331616473",
+            price: 89.99,
+            blurb: "Jacket Work para hombre color café.",
+          },
+          {
+            id: "jacket-waxed-chore-cafe",
+            name: "Jacket Waxed Chore Color Café",
+            img: "ropa/JacketWaxedChoreCafe.png",
+            url: "https://caterpillarsv.com/collections/jacket-hombre/products/30084722-jacket-waxed-chore-para-hombre-color-cafe?variant=46407978811609",
+            price: 114.99,
+            blurb: "Jacket Waxed Chore para hombre color café.",
+          },
+          {
+            id: "botas-threshold-chelsea-cafe",
+            name: "Botas Threshold Chelsea Color Café",
+            img: "ropa/BotasThresholdChelseaCafe.png",
+            url: "https://caterpillarsv.com/collections/botas-hombre/products/30080555-botas-threshold-chelsea-para-hombre-color-cafe?variant=46614736240857",
+            price: 129.99,
+            blurb: "Botas Threshold Chelsea para hombre color café.",
+          },
+        ],
+      },
+      usa: {
+        label: "Extranjero",
+        kicker: "Para traer de fuera",
+        items: [
+          {
+            id: "vegeta-new-spec",
+            name: "Vegeta New Spec Ver.",
+            img: "usa/VegetaNewSpec.png",
+            url: "https://www.amazon.com/-/es/Bandai-Hobby-Dragon-2649756-est%C3%A1ndar/dp/B0BYYL5K43?ref_=pd_ci_mcx_mh_pe_im_d1_hxwPPE_sspa_dk_det_cai_p_5_0&pd_rd_i=B0BYYL5K43&pd_rd_w=RwWDr&content-id=amzn1.sym.ace7bda0-f0aa-4605-94dd-7a08f0cf397d&pf_rd_p=ace7bda0-f0aa-4605-94dd-7a08f0cf397d&pf_rd_r=NYYEEDHDB272TYB45X4Z&pd_rd_wg=sxP3d&pd_rd_r=69f2ac30-8094-4bf2-ba0e-4b425ce2d113",
+            price: 32.55,
+            blurb: "Bandai Hobby Dragon Ball Z Vegeta New Spec Ver.",
+          },
+          {
+            id: "luffy-egghead",
+            name: "Monkey D. Luffy Future Island Egghead",
+            img: "usa/LuffyEgghead.png",
+            url: "https://www.amazon.com/-/es/gp/product/B0DMZZW9JQ/ref=ox_sc_saved_image_3?smid=ATVPDKIKX0DER&th=1",
+            price: 34.99,
+            blurb: "TAMASHII NATIONS One Piece Monkey D. Luffy Future Island Egghead.",
+          },
+          {
+            id: "all-star-blancos",
+            name: "All Star Blancos Monocromados",
+            img: "ropa/AllStarBlancosMonocromados.png",
+            url: "https://www.converse.com.au/unisex-converse-chuck-taylor-all-star-classic-colour-high-top-white-mono-1u646-white?srsltid=AfmBOorrtywSOyRnX4cwXQ22SfouSRGoM-HY1HGLgTKiasrlc-xF3eO7",
+            price: 130,
+            blurb: "Converse Chuck Taylor All Star Classic Colour High Top White Mono.",
+          },
+          {
+            id: "thule-crossover-30l",
+            name: "Thule Crossover 2 Backpack 30L",
+            img: "usa/ThuleCrossover30L.png",
+            url: "https://www.amazon.com/-/es/Thule-Crossover-Mochila-litros-Nueva/dp/B0FBMLQW7Z/?_encoding=UTF8&pd_rd_w=tdDo7&content-id=amzn1.sym.7b937733-7b0e-4587-b999-f575a417f6a5&pf_rd_p=7b937733-7b0e-4587-b999-f575a417f6a5&pf_rd_r=AN0SS5W0RYJQ84YF6K2Z&pd_rd_wg=v6OMa&pd_rd_r=103cd5de-4ab7-45ca-af80-36c559a839f4&ref_=pd_hp_d_btf_cr_cartx&th=1",
+            price: 160.66,
+            blurb: "Mochila Thule Crossover 2 de 30 litros.",
+          },
+          {
+            id: "thule-crossover-20l",
+            name: "Thule Crossover 2 Backpack 20L",
+            img: "usa/ThuleCrossover20L.png",
+            url: "https://www.amazon.com/-/es/gp/product/B0DB3GRGQF/ref=ox_sc_saved_title_1?th=1",
+            price: 294.95,
+            blurb: "Mochila Thule Crossover 2.",
+          },
+        ],
+      },
+      tec: {
+        label: "Tecnología",
+        kicker: "Para el escritorio",
+        items: [
+          {
+            id: "mouse-g203",
+            name: "Mouse Logitech G203",
+            img: "tec/mouse2.png",
+            url: "https://www.zonadigitalsv.com/product/mouse-logitech-g203-lightsync-negro-910-005790",
+            price: 30,
+            blurb: "Un mouse clásico y confiable, con luces RGB y buena precisión. Perfecto para todos los días frente a la compu — sin gastar de más.",
+          },
+          {
+            id: "mouse-cobra",
+            name: "Mouse Razer Cobra",
+            img: "tec/mouse1.png",
+            url: "https://www.zonadigitalsv.com/product/mouse-usb-razer-cobra-rgb-8500dpi-optical-rz01-04650100-r3m1",
+            price: 44,
+            blurb: "Un poco más pro: diseño cómodo, muy preciso y con luces Chroma. Este es el que más me llama la atención de los dos.",
+          },
+          {
+            id: "skull-dime",
+            name: "Audífonos Skullcandy",
+            img: "tec/skullcandy.png",
+            url: "https://sv.siman.com/audifono-in-ear-tws-dime-evo-bone-naranja-104797949/p?utm_source=algolia&utm_medium=header&utm_campaign=algolia&query=833c41776243f54faaa0aaf58f157fd5",
+            price: 59.9,
+            blurb: "Audífonos inalámbricos, color naranja. Livianos, cómodos y con buen sonido para el día a día — y combinan con todo.",
+          },
+          {
+            id: "kit-msi",
+            name: "Kit Teclado + Mouse MSI",
+            img: "tec/kitteclado.png",
+            url: "https://www.zonadigitalsv.com/product/kit-teclado-mecanico-gk320-y-mouse-gm320-msi-forge-usb-us",
+            blurb: "Teclado mecánico + mouse a juego. Se siente genial al escribir y tiene luces. Me ahorraría comprar las dos cosas por separado.",
+          },
+          {
+            id: "edifier-qr30",
+            name: "Parlante Edifier QR30",
+            img: "tec/parlante1.png",
+            url: "https://sv.siman.com/parlante-edifier-qr30---bluetooth-823484618/p?utm_source=algolia&utm_medium=header&utm_campaign=algolia&query=9a98db1193fe57688dc533a277d5d6cc",
+            price: 129,
+            blurb: "Un parlante pequeño con Bluetooth pero con muy buen sonido. Ideal para escuchar música mientras estudio o trabajo.",
+          },
+        ],
+      },
+      figuras: {
+        label: "Figuras",
+        kicker: "Para la colección",
+        items: [
+          {
+            id: "funko-luffy-gear-five-1607",
+            name: "Funko Pop Luffy Gear Five",
+            img: "figuras/FunkoLuffyGearFive1607.png",
+            url: "https://nizestore.com/products/funko-pop-luffy-gear-five-1607-one-piece",
+            price: 19.99,
+            blurb: "Funko Pop Luffy Gear Five #1607 - One Piece.",
+          },
+          {
+            id: "funko-aang-avatar-state-1000",
+            name: "Funko Pop Aang Avatar State",
+            img: "figuras/FunkoAangAvatarState1000.png",
+            url: "https://nizestore.com/products/funko-pop-aang-avatar-state-1000-avatar-the-last-airbender",
+            price: 19.99,
+            blurb: "Funko Pop Aang Avatar State #1000 - Avatar The Last Airbender.",
+          },
+          {
+            id: "funko-kujo-jotaro",
+            name: "Funko Pop Kujo Jotaro",
+            img: "figuras/FunkoKujoJotaro.png",
+            url: "https://thecomicstore.com.sv/productos/funko-pop-kujo-jotaro-jojos-bizarre-adventure",
+            price: 25,
+            blurb: "Funko Pop Kujo Jotaro - JoJo's Bizarre Adventure.",
+          },
+          {
+            id: "funko-shanks",
+            name: "Funko Pop Plus Shanks",
+            img: "figuras/FunkoShanks.png",
+            url: "https://thecomicstore.com.sv/productos/funko-pop-plus-one-piece-shanks",
+            price: 30,
+            blurb: "Funko Pop Plus Shanks - One Piece.",
+          },
+          {
+            id: "funko-king-1893",
+            name: "Funko Pop Plus King",
+            img: "figuras/FunkoKing1893.png",
+            url: "https://nizestore.com/products/funko-pop-plus-king-1893-one-piece?_pos=2&_sid=edbe81639&_ss=r",
+            price: 29.99,
+            blurb: "Funko Pop Plus King #1893 - One Piece.",
+          },
+          {
+            id: "cyclops-premium-figure",
+            name: "Marvel Act/Cut Premium Figure Cyclops",
+            img: "figuras/CyclopsPremiumFigure.png",
+            url: "https://dekugeek.com/products/marvel-act-cut-premium-figure-cyclops?_pos=207&_fid=abb77c920&_ss=c",
+            price: 45,
+            blurb: "Marvel Act/Cut Premium Figure Cyclops.",
+          },
+          {
+            id: "star-platinum-medicos",
+            name: "Super Action Statue Star Platinum",
+            img: "figuras/StarPlatinumMedicos.png",
+            url: "https://dekugeek.com/products/jojos-bizarre-adventure-super-action-statue-medicos-star-platinum?_pos=175&_fid=abb77c920&_ss=c",
+            price: 120,
+            blurb: "JoJo's Bizarre Adventure Super Action Statue Medicos Star Platinum.",
+          },
+          {
+            id: "imagination-works-luffy",
+            name: "Imagination Works Monkey D. Luffy",
+            img: "figuras/ImaginationWorksLuffy.png",
+            url: "https://nizestore.com/products/bandai-spirits-imagination-works-monkey-d-luffy-one-piece-4573102621252?_pos=149&_sid=a1d9ebf91&_ss=r",
+            price: 199.99,
+            blurb: "Bandai Spirits Imagination Works Monkey D. Luffy - One Piece.",
+          },
+        ],
+      },
+      acc: {
+        label: "Accesorios",
+        kicker: "Para usar todos los días",
+        items: [
+          {
+            id: "reloj-1",
+            name: "Reloj Crono Metálico",
+            img: "accesorios/reloj1.png",
+            url: "https://sv.siman.com/reloj-analogo-metalico-crono-plateado-c-negro-para-hombre-102767795/p",
+            price: 89.9,
+            blurb: "Un reloj elegante, plateado con detalles negros. Me gusta porque es sencillo pero se ve bien para cualquier ocasión.",
+          },
+          {
+            id: "reloj-2",
+            name: "Reloj Metálico Plateado",
+            img: "accesorios/reloj2.png",
+            url: "https://sv.siman.com/reloj-analogo-metalico-plateado-hombreallero-101704722/p",
+            price: 65.9,
+            blurb: "Todo plateado, diseño limpio y clásico. Una opción más minimalista que combina con cualquier outfit.",
+          },
+          {
+            id: "reloj-3",
+            name: "Reloj con el metal negro",
+            img: "accesorios/reloj3.png",
+            url: null,
+            blurb: "Esta imagen es solo una idea del estilo que me gusta. No es un producto específico — la pongo nada más para mostrar un estilo que me gusta.",
+            disclaimer: true,
+          },
+          {
+            id: "lentes-ejemplo",
+            name: "Lentes de referencia",
+            img: "accesorios/lentesejemplo.png",
+            url: null,
+            blurb: "Esta imagen es solo una idea del estilo de lentes que me gusta. No es un producto específico, solo una referencia.",
+            disclaimer: true,
+          },
+        ],
+      },
+    };
+
+    const SECTION_ORDER = ["ropa", "acc", "tec", "figuras", "usa"];
+    const EDITOR_FAVORITES = new Set([
+      "overshirt-ejemplo",
+      "botas-threshold-chelsea-cafe",
+      "all-star-blancos",
+      "skull-dime",
+      "cyclops-premium-figure",
+      "reloj-2",
+    ]);
+    const FLIPADAS = new Set([
+      "jacket-waxed-chore-cafe",
+      "botas-threshold-chelsea-cafe",
+      "all-star-blancos",
+      "thule-crossover-30l",
+      "thule-crossover-20l",
+      "edifier-qr30",
+      "star-platinum-medicos",
+      "imagination-works-luffy",
+    ]);
+    const PRICE_FILTERS = [
+      { id: "all", label: "Todos", match: () => true },
+      { id: "under50", label: "< $50", match: (item) => typeof item.price === "number" && item.price < 50 },
+      { id: "50to100", label: "$50-$100", match: (item) => typeof item.price === "number" && item.price >= 50 && item.price <= 100 },
+      { id: "over100", label: "> $100", match: (item) => typeof item.price === "number" && item.price > 100 },
+      { id: "noprice", label: "Sin precio", match: (item) => typeof item.price !== "number" },
+    ];
+
+    const Arrow = ({dir="right"}) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{transform: dir==="left" ? "scaleX(-1)" : "none"}}>
+        <path d="M5 12h14M13 6l6 6-6 6"/>
+      </svg>
+    );
+    const External = () => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M7 17 17 7M8 7h9v9"/>
+      </svg>
+    );
+
+    function Hero(){
+      const [isSpinning, setIsSpinning] = useState(false);
+
+      return (
+        <header className="hero">
+          <h1 className="hero-title">
+            <span className="title-line">
+              WISHLIST
+              <button
+                className={isSpinning ? "head-button spin" : "head-button"}
+                onClick={()=>setIsSpinning(true)}
+                onAnimationEnd={()=>setIsSpinning(false)}
+                aria-label="Girar cabeza"
+              >
+                <img
+                  className="head-icon"
+                  src="cabeza.png"
+                  alt=""
+                  draggable="false"
+                />
+              </button>
+            </span>
+            <span className="javi">de Javi</span>
+          </h1>
+          <p className="hero-sub">
+            Wishlist <b>2026-2028</b>
+          </p>
+        </header>
+      );
+    }
+
+    function ProductStage({collection}){
+      const [idx, setIdx] = useState(0);
+      const [key, setKey] = useState(0);
+      const items = collection.items;
+      const n = items.length;
+      if (!n) {
+        return (
+          <div className="empty-state">
+            <h3>Nada por aquí</h3>
+            <p>No hay productos en esta sección con ese filtro de precio.</p>
+          </div>
+        );
+      }
+      const activeIdx = idx < n ? idx : 0;
+      const item = items[activeIdx];
+      const isFavorite = EDITOR_FAVORITES.has(item.id);
+      const isFlipada = FLIPADAS.has(item.id);
+
+      useEffect(()=>{ setIdx(0); setKey(k=>k+1); }, [collection.label]);
+
+      const go = (delta) => {
+        setIdx(i => (i + delta + n) % n);
+        setKey(k => k+1);
+      };
+      const goTo = (i) => {
+        if (i===idx) return;
+        setIdx(i);
+        setKey(k=>k+1);
+      };
+
+      useEffect(()=>{
+        const onKey = (e) => {
+          if (e.key === "ArrowLeft") go(-1);
+          if (e.key === "ArrowRight") go(1);
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+      }, [n, idx]);
+
+      const touchRef = useRef({x:0,y:0,active:false});
+      const onTouchStart = (e)=>{
+        const t = e.touches[0];
+        touchRef.current = {x: t.clientX, y: t.clientY, active: true};
+      };
+      const onTouchEnd = (e)=>{
+        if (!touchRef.current.active) return;
+        const t = e.changedTouches[0];
+        const dx = t.clientX - touchRef.current.x;
+        const dy = t.clientY - touchRef.current.y;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+          go(dx < 0 ? 1 : -1);
+        }
+        touchRef.current.active = false;
+      };
+
+      return (
+        <>
+          <div className="stage" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+            <div className="stage-visual">
+              <div className="stage-badge">
+                <span className="num">{String(activeIdx+1).padStart(2,"0")}</span>
+                <span className="of">de {String(n).padStart(2,"0")}</span>
+              </div>
+              {(isFavorite || isFlipada) && (
+                <div className="corner-badges">
+                  {isFavorite && <div className="favorite-badge">Favorito del editor</div>}
+                  {isFlipada && <div className="flipada-badge">Flipada</div>}
+                </div>
+              )}
+              <div className="product-img-wrap">
+                <img
+                  key={key + "-img"}
+                  className="product-img enter"
+                  src={item.img}
+                  alt={item.name}
+                  draggable="false"
+                />
+              </div>
+            </div>
+
+            <div className="stage-info">
+              <div className="info-kicker">{collection.kicker}</div>
+              <h3 key={key + "-title"} className="info-title enter">{item.name}</h3>
+              {item.disclaimer && (
+                <p key={key + "-desc"} className="info-desc enter">{item.blurb}</p>
+              )}
+              <div className="info-cta">
+                {item.url ? (
+                  <a className="btn-primary" href={item.url} target="_blank" rel="noopener">
+                    Ver en la tienda
+                    <External/>
+                  </a>
+                ) : (
+                  <span className="btn-ref">Solo referencia</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="controls">
+            <div className="thumb-strip" role="tablist">
+              {items.map((it, i)=>(
+                <button
+                  key={it.id}
+                  className="thumb"
+                  aria-selected={i===activeIdx}
+                  onClick={()=>goTo(i)}
+                  title={it.name}
+                >
+                  <img src={it.img} alt="" draggable="false" />
+                </button>
+              ))}
+            </div>
+            <div className="nav">
+              <button className="nav-btn" onClick={()=>go(-1)} aria-label="Anterior"><Arrow dir="left"/></button>
+              <button className="nav-btn" onClick={()=>go(1)} aria-label="Siguiente"><Arrow/></button>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    function App(){
+      const [tab, setTab] = useState("ropa");
+      const [priceFilter, setPriceFilter] = useState("all");
+      const [showPriceFilters, setShowPriceFilters] = useState(false);
+      const coll = COLLECTIONS[tab];
+      const activeFilter = PRICE_FILTERS.find((filter) => filter.id === priceFilter) || PRICE_FILTERS[0];
+      const filteredColl = {
+        ...coll,
+        items: coll.items.filter(activeFilter.match),
+      };
+
+      return (
+        <div className="shell">
+          <Hero/>
+
+          <div className="tabs" role="tablist">
+            {SECTION_ORDER.map((key)=>{
+              const c = COLLECTIONS[key];
+              const count = c.items.filter(activeFilter.match).length;
+              return (
+              <button
+                key={key}
+                className="tab"
+                aria-selected={tab===key}
+                onClick={()=>setTab(key)}
+              >
+                {c.label}
+                <span className="tab-count">{count}</span>
+              </button>
+              );
+            })}
+          </div>
+
+          <div className="filter-area">
+            <button
+              className="filter-toggle"
+              aria-expanded={showPriceFilters}
+              onClick={()=>setShowPriceFilters(open=>!open)}
+            >
+              Filtros
+              <span>{activeFilter.label}</span>
+            </button>
+
+            {showPriceFilters && (
+              <div className="price-filters" role="tablist" aria-label="Filtro de precio">
+                {PRICE_FILTERS.map((filter)=>(
+                  <button
+                    key={filter.id}
+                    className="price-filter"
+                    aria-selected={priceFilter===filter.id}
+                    onClick={()=>{
+                      setPriceFilter(filter.id);
+                      setShowPriceFilters(false);
+                    }}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <ProductStage key={`${tab}-${priceFilter}`} collection={filteredColl}/>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+  </script>
+</body>
+</html>
